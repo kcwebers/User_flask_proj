@@ -2,14 +2,14 @@
 from flask_app import app
 from flask import render_template,redirect,request,session,flash
 from flask_app.config.mysqlconnection import connectToMySQL
-from flask_app.models.user import User
+from flask_app.models.friend import Friend
 
 ##############################################
 # Show all route
 ##############################################
 @app.route("/")
 def index():
-    return render_template("index.html", all_users = User.all_users())
+    return render_template("index.html", all_friends = Friend.all_friends())
 
 ##############################################
 # Show one route
@@ -20,7 +20,7 @@ def show(id):
     data = {
         "id" : id
     }
-    return render_template("show.html", user = User.one_user(data))
+    return render_template("show.html", friend = Friend.one_friend(data))
 
 ##############################################
 # Create routes
@@ -39,7 +39,7 @@ def create_friend():
         "lname":request.form['lname'],
         "occupation":request.form['occ']
     }
-    User.save(data)
+    Friend.save(data)
     return redirect('/')
 
 ##############################################
@@ -48,12 +48,10 @@ def create_friend():
 
 @app.route("/delete/<id>")
 def delete(id):
-    mysql = connectToMySQL('first_flask')
-    query = "DELETE FROM friends WHERE id=%(id)s;"
     data = {
         "id" : int(id)
     }
-    mysql.query_db(query, data)
+    Friend.delete_friend(data)
     return redirect("/")
 
 ##############################################
@@ -63,13 +61,10 @@ def delete(id):
 # renders edit.html with the form
 @app.route("/edit/<int:id>")
 def edit(id):
-    mysql = connectToMySQL('first_flask')
-    query = "SELECT * FROM friends WHERE id=%(id)s;"
     data = {
         "id" : int(id)
     }
-    user = mysql.query_db(query, data)
-    return render_template("edit.html", user = User.edit_user(data))
+    return render_template("edit.html", friend = Friend.one_friend(data))
 
 # processes the info attained from the form
 @app.route("/update/<int:id>", methods=["POST"])
@@ -80,5 +75,5 @@ def update(id):
         "occupation" : request.form['occ'],
         "id" : id
     }
-    User.update_user(data)
+    Friend.update_friend(data)
     return redirect(f"/show/{id}")
