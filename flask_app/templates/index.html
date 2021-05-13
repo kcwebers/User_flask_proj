@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <a class="btn btn-dark float-right mt-2" href="/create">Add A Friend</a>
+        <h1>All My Friends</h1>
+        {% for user in all_users %}
+            <p>First Name: {{user["first_name"]}}</p>
+            <p>Last Name: {{user["last_name"]}}</p>
+            <p>Occupation: {{user["occupation"]}}</p>
+
+            <p><a class="btn btn-primary" href="/show/{{user['id']}}">Show User</a></p>
+            <hr>
+        {% endfor %} 
+
+    </div>
+</body>
+</html>
