@@ -13,5 +13,5 @@ class Dog:
 ##############################################
     @classmethod
     def save_dog(cls, data):
-        query = "INSERT INTO dogs (name, description, occupation, created_at) VALUES (%(name)s, %(description)s, NOW());"
+        query = "INSERT INTO dogs (name, description, created_at) VALUES (%(name)s, %(description)s, NOW());"
         return connectToMySQL('first_flask').query_db(query, data)
