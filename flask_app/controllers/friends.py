@@ -1,4 +1,3 @@
-# burgers.py
 from flask_app import app
 from flask import render_template,redirect,request,session,flash
 from flask_app.config.mysqlconnection import connectToMySQL
@@ -9,7 +8,7 @@ from flask_app.models.friend import Friend
 ##############################################
 @app.route("/")
 def index():
-    return render_template("index.html", all_friends = Friend.all_friends())
+    return render_template("friends/index.html", all_friends = Friend.all_friends())
 
 ##############################################
 # Show one route
@@ -20,7 +19,7 @@ def show(id):
     data = {
         "id" : id
     }
-    return render_template("show.html", friend = Friend.one_friend(data))
+    return render_template("friends/show.html", friend = Friend.one_friend(data))
 
 ##############################################
 # Create routes
@@ -29,7 +28,7 @@ def show(id):
 # render the create.html which houses the form
 @app.route("/create")
 def create():
-    return render_template("create.html")
+    return render_template("friends/create.html")
 
 # process the infro from our form on create.html, then redirect elsewhere
 @app.route("/create_friend", methods=["POST"])
@@ -64,7 +63,7 @@ def edit(id):
     data = {
         "id" : int(id)
     }
-    return render_template("edit.html", friend = Friend.one_friend(data))
+    return render_template("friends/edit.html", friend = Friend.one_friend(data))
 
 # processes the info attained from the form
 @app.route("/update/<int:id>", methods=["POST"])
