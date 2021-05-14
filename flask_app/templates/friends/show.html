@@ -11,9 +11,14 @@
     <div class="container">
         <h1>You made it to the show page</h1>
 
-        <p>First Name: {{friend["first_name"]}}</p>
-        <p>Last Name: {{friend["last_name"]}}</p>
-        <p>Occupation: {{friend["occupation"]}}</p>
+        <p>First Name: {{ friend.first_name }}</p>
+        <p>Last Name: {{ friend.last_name }}</p>
+        <p>Occupation: {{ friend.occupation }}</p>
+        <p>Dogs: 
+            {% for dog in friend.dogs %}
+                <p>{{ dog.name }}</p>
+            {% endfor %}
+        </p>
         <p>Actions: <a class="btn btn-danger mr-1" href="/delete/{{friend['id']}}">Delete</a> <a class="btn btn-warning mr-1" href="/edit/{{friend['id']}}">Edit Friend</a> <a class="btn btn-success mr-1" href="/">Go Home</a></p>
     </div>
 </body>

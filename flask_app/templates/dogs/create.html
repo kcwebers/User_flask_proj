@@ -9,11 +9,18 @@
 </head>
 <body>
     <div class="container">
-        <h1>Add a Pet</h1>
+        <h1>Add a Dog to a Friend</h1>
         <form action="/create_dog" method="POST">
             <p>Name: <input type="text" name="name"></p>
             <p>Description: <textarea name="desc"></textarea>
-            <input class="btn btn-succs" type="submit" value="Add Dog">
+            <p>Owner:
+                <select name="friend_id">
+                    {% for friend in all_friends %}
+                    <option value="{{ friend['id'] }}">{{ friend['first_name'] }} {{ friend['last_name'] }}</option>
+                    {% endfor %}
+                </select>
+            </p>
+            <input class="btn btn-success" type="submit" value="Add Dog">
         </form>
     </div>
 

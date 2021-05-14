@@ -19,7 +19,7 @@ def show(id):
     data = {
         "id" : id
     }
-    return render_template("friends/show.html", friend = Friend.one_friend(data))
+    return render_template("friends/show.html", friend = Friend.get_dogs_by_friend(data))
 
 ##############################################
 # Create routes
@@ -46,7 +46,7 @@ def create_friend():
 ##############################################
 
 @app.route("/delete/<id>")
-def delete(id):
+def delete_friend(id):
     data = {
         "id" : int(id)
     }

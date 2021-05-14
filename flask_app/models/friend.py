@@ -1,4 +1,5 @@
 from flask_app.config.mysqlconnection import connectToMySQL
+from flask_app.models.dog import Dog
 
 class Friend:
     def __init__(self, data):
@@ -8,7 +9,28 @@ class Friend:
         self.occupation = data['occupation']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
+        self.dogs = []
 
+##############################################
+# Mapping Dogs to Friend
+##############################################
+    @classmethod
+    def get_dogs_by_friend(cls, data):
+        query = "SELECT * FROM friends JOIN dogs ON friends.id = friend_id WHERE friends.id = %(id)s;"
+        results = connectToMySQL('first_flask').query_db(query, data)
+
+        group = cls(results[0])
+
+        for row_from_db in results:
+            data = {
+                "id":row_from_db['dogs.id'],
+                "name":row_from_db['name'],
+                "description":row_from_db['description'],
+                "created_at":row_from_db['dogs.created_at'],
+                "updated_at":row_from_db['dogs.updated_at'],
+            }
+            group.dogs.append(Dog(data))
+        return group
 ##############################################
 # Get All route
 ##############################################
@@ -18,12 +40,10 @@ class Friend:
         query = "SELECT * FROM friends;"
         # run the query by calling on your db
         friends_from_db = connectToMySQL('first_flask').query_db(query)
-
         # parse through the response data and add to new list that you can return to your controller
         all_friends = []
         for friend in friends_from_db:
             all_friends.append(cls(friend))
-
         # return new list, which will be used but controller
         return all_friends
 
