@@ -2,6 +2,9 @@ from flask_app import app
 from flask import render_template,redirect,request,session,flash
 from flask_app.config.mysqlconnection import connectToMySQL
 from flask_app.models.friend import Friend
+from flask_bcrypt import Bcrypt
+
+bcrypt = Bcrypt(app)
 
 ##############################################
 # Show all route
@@ -33,9 +36,17 @@ def create():
 # process the infro from our form on create.html, then redirect elsewhere
 @app.route("/create_friend", methods=["POST"])
 def create_friend():
+
+    if not Friend.validate_friend(request.form):
+        return redirect("/create")
+
+    hashed_lname = bcrypt.generate_password_hash(request.form['lname'])
+    print(request.form['lname'])
+    print(hashed_lname)
+
     data = {
         "fname":request.form['fname'],
-        "lname":request.form['lname'],
+        "lname":hashed_lname,
         "occupation":request.form['occ']
     }
     Friend.save(data)

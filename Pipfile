@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 pymysql = "*"
 flask = "*"
+flask-bcrypt = "*"
 
 [requires]
 python_version = "3.6"
